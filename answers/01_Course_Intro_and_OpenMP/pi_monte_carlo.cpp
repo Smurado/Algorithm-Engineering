@@ -9,11 +9,11 @@ int main() {
     unsigned int seed = 10;
     uniform_real_distribution<double> zero_to_one{0.0, 1.0};
 
-    int n = 1000000000; // number of points to generate
+    int n = 1e8; // number of points to generate
     int counter = 0; // counter for points lying in the first quadrant of a unit circle
     auto start_time = omp_get_wtime(); // omp_get_wtime() is an OpenMP library routine
 
-    int num_threads = 12;
+    int num_threads = 8;
     int part = static_cast<int>(n / num_threads);
 
 #pragma omp parallel num_threads(num_threads)
