@@ -69,6 +69,5 @@ __pycache__/
 # Generated output (Datasaurus)
 Datasaurus_Cpp/data/output*.csv
 Datasaurus_Cpp/frames/
-Datasaurus_Cpp/gifs/
 Datasaurus_Cpp/Notebook/*.png
 Datasaurus_Cpp/Notebook/*.csv

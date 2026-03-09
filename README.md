@@ -44,7 +44,7 @@ The optimizer accepts optional CLI parameters to tune the simulated annealing pr
 
 **Cooling rate** is computed automatically so the temperature decays from `--temp` to a fixed end temperature (~0.00002) over exactly `--iterations` steps:
 
-$$\text{cooling\_rate} = \left(\frac{T_{end}}{T_{start}}\right)^{1/N}$$
+$$\text{coolingRate} = \left(\frac{T_{end}}{T_{start}}\right)^{1/N}$$
 
 This means you never need to manually calibrate the cooling rate when changing iterations or temperature.
 
