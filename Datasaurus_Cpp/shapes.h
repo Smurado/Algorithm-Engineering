@@ -8,9 +8,7 @@
 #include <sstream>
 #include <algorithm>
 
-// Interface für austauschbare Zielformen (Polymorphismus).
-// Erlaubt später einfache Erweiterungen um z.B. mathematisch
-// definierte Formen (Kreise, Polygone) ohne Code-Duplizierung.
+// Abstract base class for target shapes (allows file-based and parametric shapes)
 class TargetShape {
 public:
     virtual ~TargetShape() = default;
@@ -20,13 +18,10 @@ public:
 
 class FileShape : public TargetShape {
     std::vector<Point> targetPoints;
-    // Lookup-Table (LUT) für vorberechnete Distanzen.
-    // Klassischer Space-Time-Tradeoff: Wir opfern ~80 KB RAM,
-    // um Milliarden O(N)-Distanzberechnungen waehrend der MCMC-Simulation zu sparen.
+    // Precomputed distance lookup table (LUT): trades ~80 KB RAM for O(1) distance queries
     double grid[101][101];
 
 public:
-    // 'explicit' verhindert versehentliche implizite Casts von std::string zu FileShape
     explicit FileShape(const std::string& filename) {
         std::ifstream file(filename);
         std::string line;
@@ -42,7 +37,7 @@ public:
             }
         }
 
-        // 2. Grid vorberechnen (Lookup-Table)
+        // Precompute distance grid
         for (int x = 0; x <= 100; ++x) {
             for (int y = 0; y <= 100; ++y) {
                 double minDist = 1e9;
@@ -56,12 +51,17 @@ public:
     }
 
     double distanceTo(const Point& p) const override {
-        // PERFORMANCE-CORE: Reduktion der Komplexitaet auf O(1) Array-Zugriff.
-        // std::clamp garantiert Speichersicherheit (verhindert Segfaults/Out-of-Bounds),
-        // falls die Perturbation Punkte temporaer ueber das 100x100 Grid hinausbewegt.
+        // O(1) grid lookup; out-of-bounds points get an additional penalty
+        // proportional to their distance from the grid, creating a gradient back inward
         int ix = std::clamp(static_cast<int>(std::round(p.x)), 0, 100);
         int iy = std::clamp(static_cast<int>(std::round(p.y)), 0, 100);
 
-        return grid[ix][iy];
+        double baseDist = grid[ix][iy];
+
+        double dx = std::max({0.0, -p.x, p.x - 100.0});
+        double dy = std::max({0.0, -p.y, p.y - 100.0});
+        double penalty = std::sqrt(dx * dx + dy * dy);
+
+        return baseDist + penalty;
     }
 };

@@ -1,15 +1,13 @@
 cmake_minimum_required(VERSION 3.28) # [cite: 1]
 project(Datasaurus_Cpp CXX)
 
-# C++23 festlegen
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# OpenMP suchen
 find_package(OpenMP REQUIRED)
 
 # ==========================================
-# 1. Haupt-Programm definieren
+# Main executable
 # ==========================================
 add_executable(Datasaurus_Cpp
         main.cpp
@@ -21,7 +19,7 @@ add_executable(Datasaurus_Cpp
 target_link_libraries(Datasaurus_Cpp PUBLIC OpenMP::OpenMP_CXX)
 
 # ==========================================
-# 2. Test-Programm definieren
+# Test executable
 # ==========================================
 enable_testing()
 
@@ -42,24 +40,24 @@ add_executable(UnitTests
 target_link_libraries(UnitTests PRIVATE Catch2::Catch2WithMain PUBLIC OpenMP::OpenMP_CXX)
 
 # ==========================================
-# 3. Compiler-Flags für BEIDE Targets setzen
+# Compiler flags
 # ==========================================
 if(MSVC)
-    # Windows / Visual Studio Compiler
+    # MSVC
     target_compile_options(Datasaurus_Cpp PRIVATE /O2 /arch:AVX2 /openmp)
     target_compile_options(UnitTests PRIVATE /O2 /arch:AVX2 /openmp)
 else()
-    # Clang (Mac) oder echter GCC (Linux/Mac)
+    # Clang / GCC
     target_compile_options(Datasaurus_Cpp PRIVATE -fopenmp -O3)
     target_compile_options(UnitTests PRIVATE -fopenmp -O3)
 
-    # Nutze -march=native NUR, wenn wir KEIN Universal Binary für Mac bauen
+    # Only use -march=native when not building a Universal Binary
     if(NOT CMAKE_OSX_ARCHITECTURES)
         target_compile_options(Datasaurus_Cpp PRIVATE -march=native)
         target_compile_options(UnitTests PRIVATE -march=native)
     endif()
 endif()
 
-# Tests für die IDE (Test Explorer) auffindbar machen
+# Make tests discoverable via CTest / IDE Test Explorer
 include(Catch)
 catch_discover_tests(UnitTests)
