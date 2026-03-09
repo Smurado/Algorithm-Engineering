@@ -5,10 +5,10 @@ be used with `#pragma omp simd`.
 
 # private
 
-**private** ensures that each **SIMD** lane has its own local copy the variable.
+**private** ensures that each **SIMD** lane has its own local copy of the variable.
 
-**example:**
-``` c++
+**Example:**
+```cpp
 void process_data(float* input, float* output, int n, float factor) {
     float temp; 
 
@@ -23,10 +23,10 @@ void process_data(float* input, float* output, int n, float factor) {
 # safelen
 
 **safelen** sets a vector width limit. 
-This means in the example below, that the loop can be vectorized safely with a vector length of 4 or less.
+This means, in the example below, that the loop can be vectorized safely with a vector length of 4 or less.
 
-**example:**
-``` c++
+**Example:**
+```cpp
 void process_data(float* A, int n) {
     #pragma omp simd safelen(4)
     for (int i = 4; i < n; i++) {
@@ -37,15 +37,15 @@ void process_data(float* A, int n) {
 
 # collapse
 
-**collapse** fuses loops together and executes it as one.
-It has similarities with the command from previous lectures:
+**collapse** fuses nested loops together and executes them as one.
+It has similarities to the loop construct from previous lectures:
 
 > `#pragma omp parallel for collapse(2)`
 
-In this case it does the same thing (fusing loops together), with the exception that it is an optimization in context of **SIMD**, which allows the compiler to optimize the vectorization if possible.
+In this case, it does the same thing (fusing loops together), with the exception that it is an optimization in the context of **SIMD**, which provides the compiler with a larger iteration space to optimize the vectorization if possible.
 
-**example:**
-``` c++
+**Example:**
+```cpp
 void fill_matrix(float matrix[4][4]) {
     #pragma omp simd collapse(2)
     for (int i = 0; i < 4; i++) {

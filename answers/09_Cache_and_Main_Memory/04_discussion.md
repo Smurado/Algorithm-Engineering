@@ -1,44 +1,42 @@
 # Topic
 
-Read the paper "An Overview of Cache Optimization
-Techniques and Cache-Aware Numerical Algorithms".Discuss two things you find particularly interesting.
+Read the paper "An Overview of Cache Optimization Techniques and Cache-Aware Numerical Algorithms".
+Discuss two things you find particularly interesting.
 
 ## Topic 1
 
-cache data replacement
+Cache data replacement
 
 ## Discussion 1
 
-In chapter 10.2.3, the author talks about cache data replacement policies/strategies. They determine which memory block gets replaced when something new needs to be stored in memory.
+In chapter 10.2.3, the author talks about cache data replacement policies/strategies. They determine which memory block gets replaced when something new needs to be stored in the cache.
 
-There seem to be 3 methods mentiond in the paper are the following:
+There seem to be 4 methods mentioned in the paper:
 
-- Random
-  As the name suggest here the block in the cache that gets overwritten is picked randomly. This method is very easy to implement and has very minimal administrative expenses but it can delete important data by accident/design.
+- **Random**
+  As the name suggests, the block in the cache that gets overwritten is picked randomly. This method is very easy to implement and has very minimal administrative overhead, but it can accidentally delete important data that is still needed.
 
+- **LRU (Least Recently Used)**  
+  As the name suggests, it overwrites the block that was used least recently. Based on temporal locality, things that were used recently have a higher chance of being needed again than things that were loaded a long time ago. It is highly efficient, but it does require keeping track of access times for the data.
 
-- LRU (Least Recently Used)  
-  As the name suggest it overwrites the block that was used least recently. Things that are used recently will be needed again with a higher chance than things that are loaded since long ago. It is highly efficient but it does require to kep track of time of the data.
-
-- LFU (Least Frequently Used)
-  As the name suggest it overwerites the block that was used the least frequently. Each block gets a counter which gets increased with each use. In return often used data will not be replaced. A downside is that old data that was used heavily in the past will likely not get overwritten.
+- **LFU (Least Frequently Used)**
+  As the name suggests, it overwrites the block that was used the least frequently. Each block gets a counter which gets increased with each use. In return, often-used data will not be replaced. A downside is that old data that was used heavily in the past might not get overwritten, even if it is no longer needed.
   
-
-- FIFO (First-in First-Out)
-  As the name suggest the block that was loaded first will get deleted first. It hearby doesnt matter if data is still used. The implementation is simple but the hit-rata is not as good.
+- **FIFO (First-In, First-Out)**
+  As the name suggests, the block that was loaded first will get deleted first. It doesn't matter if the data is still being used. The implementation is simple, but the hit rate is typically not as good as LRU.
 
 ## Topic 2
 
-Loop interchange
+Loop Interchange
 
 ## Discussion 2
 
-In chapter 10.3.1, the author talks about data access optimizations, especially _loop interchange_. As I didn't understand it the first time I read some more sources about it an thought it to be absolutly logical but something we dont think about naturally when programming.
+In chapter 10.3.1, the author talks about data access optimizations, especially _loop interchange_. As I didn't fully understand it the first time, I read some more sources about it and found it to be absolutely logical, yet it's something we don't naturally think about when programming.
 
-**Loop interchange** as the name suggests, "switches" the order of the loops with the goal of better vectorization and parallelism. An example is:
+**Loop interchange**, as the name suggests, "switches" the order of nested loops with the goal of achieving better cache utilization (and optionally vectorization and parallelism). An example is:
 
 ```c++
-// Original
+// Original (Column-major access in C++)
 double sum;
 double a[n, n];
 for j = 1 to n do
@@ -57,6 +55,6 @@ for i = 1 to n do
 end for
 ```
 
-This works because it used the cacheline better.
+This works because it uses the cache line much better due to spatial locality.
 
-By switching the loops, the code reads data in its order. When the processor loads a cache line for the first number, the next numbers are already inside it. This means the program uses the whole cache line immediately, instead of constantly fetching new lines from slow memory and only working with a single item from each line.
+By switching the loops, the code reads data sequentially in memory order (row-major order in C/C++). When the processor loads a cache line from main memory for the first number, the next few numbers are already inside that same cache line. This means the program uses all the data in the cache line immediately, instead of constantly fetching new lines from slow memory and only working with a single item from each line (cache thrashing).

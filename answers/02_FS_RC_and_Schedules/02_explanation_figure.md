@@ -3,24 +3,25 @@ law ends.
 
 # Figure **Performance gains after Moore’s law ends.**
 
-The figure shows the idea of two different sections in which performance gains can be achieved.
-Namely, _The Top_ and _The Bottom_.
+The figure illustrates the concept of dividing performance gains into two distinct sections, 
+namely *The Top* and *The Bottom*.
 
-The Bottom: All the direct hardware improvements that can be made to speed up the capabilities of computing.
-            For Example: smaller processing nodes: 14nm -> 4nm. Or by using GAA (Gate-All-Around) instead of FinFET.
+**The Bottom:** This refers to all the direct hardware improvements that can be made to increase processing capabilities.
+For example: shrinking logic nodes (e.g., from 14nm to 4nm) or using GAA (Gate-All-Around) transistors instead of FinFETs.
 
-The Top: Other Methods to improve performance in this example: 
-- Software 
-  - Brings the opportunity to improve Software performance through engineering by for example removing software bloat 
-    or tailoring software to hardware features.″
+**The Top:** This encompasses other methods used to improve performance, specifically in the following areas:
 
-- Algorithms
-  - Brings the opportunity to implement new algorithms for new problem domains or new machine models.
+- **Software** 
+  - Offers the opportunity to improve software performance through better engineering, for example, by removing software bloat 
+    or tailoring software to specific hardware features.
 
-- Hardware architecture
-  - brings the opportunity to streamline hardware to free up resources by for example processor simplification 
-    or domain specialization.″″
+- **Algorithms**
+  - Offers the opportunity to implement better algorithms for new problem domains or new machine models.
 
-The figure underlines the concept that there are many more ways to speed up computation other that just simply improving
-the main hardware of the processors. Because maybe one day Moore's law will eventually end but there are many more 
-problems to be solved to speed up certain tasks or to make them more efficient.″
+- **Hardware Architecture**
+  - Extends the opportunity to streamline hardware and free up resources, for example, through processor simplification 
+    or domain specialization.
+
+The figure emphasizes that there are many more ways to speed up computation than just simply improving
+the main processor hardware. Even if Moore's Law eventually ends, there will still be many avenues 
+available to optimize and accelerate computational tasks.

@@ -4,24 +4,24 @@ How can memory aliasing affect performance?
 ## Answer
 
 Compilers are pessimistic. 
-If a function has multiple pointers the compiler assumes that those points point to the same memory address.
-Therefor the compiler wont optimize the code to it's fullest potential.
-The programmer can guarantee this, by addin gthe keyword `__restrict__` to the pointer.
+If a function receives multiple pointers, the compiler assumes that these pointers might point to the same memory address (memory aliasing).
+Therefore, the compiler won't optimize the code to its fullest potential to avoid causing bugs when modifying shared data.
+The programmer can guarantee that pointers do not overlap by adding the keyword `__restrict__` to the pointers.
 
 **example:**<br>
-function without restriction:
+Function without restriction:
 ```c++
 void important_function(
     int* in, 
     int* out
 );
 ```
-function with restriction:
+Function with restriction:
 ```c++
 void important_function(
-    int*__restrict__ in, 
-    int*__restrict__ out
+    int* __restrict__ in, 
+    int* __restrict__ out
 );
 ```
 
-The second example enables the compiler to make drastic improvements.
+The second example enables the compiler to make drastic performance improvements.
