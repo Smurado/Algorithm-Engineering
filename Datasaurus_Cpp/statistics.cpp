@@ -7,7 +7,7 @@ DatasetStats calculateStats(const std::vector<Point>& points) {
     size_t n = points.size();
     double sum_x = 0.0, sum_y = 0.0;
 
-    // Mittelwerte berechnen
+    // Pass 1: means
     for (const auto& p : points) {
         sum_x += p.x;
         sum_y += p.y;
@@ -17,9 +17,7 @@ DatasetStats calculateStats(const std::vector<Point>& points) {
 
     double var_x = 0.0, var_y = 0.0, cov = 0.0;
 
-    // Varianz und Kovarianz
-    // Two-Pass-Verfahren gewählt wegen besserer numerischer Stabilität
-    // im Vergleich zur Single-Pass Formel. Außerdem gut für OpenMP geeignet.
+    // Pass 2: variance and covariance (two-pass for numerical stability)
     for (const auto& p : points) {
         double dx = p.x - mx;
         double dy = p.y - my;
@@ -32,12 +30,11 @@ DatasetStats calculateStats(const std::vector<Point>& points) {
     stats.mean_x = mx;
     stats.mean_y = my;
     
-    // Stichprobenstandardabweichung -> Bessel-Korrektur (n-1)
+    // Sample standard deviation with Bessel correction (n-1)
     stats.std_x = std::sqrt(var_x / (n - 1));
     stats.std_y = std::sqrt(var_y / (n - 1));
     
-    // Pearson-Korrelationskoeffizient r
-    // Verhindert Division durch Null bei identischen Punkten
+    // Pearson correlation coefficient
     double denom = std::sqrt(var_x * var_y);
     stats.correlation = (denom > 0) ? (cov / denom) : 0;
 

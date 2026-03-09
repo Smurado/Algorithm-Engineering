@@ -3,23 +3,20 @@
 
 #include <vector>
 
-// Basis-Struktur für die Punkte
 struct Point {
     double x;
     double y;
 };
 
-// Hier ist die gesuchte Struktur:
-// Sie speichert die 5 Kennzahlen, die das "Anscombe's Quartett" definieren
+// The five summary statistics that define Anscombe's Quartet
 struct DatasetStats {
-    double mean_x;      // Mittelwert X
-    double mean_y;      // Mittelwert Y
-    double std_x;       // Standardabweichung X
-    double std_y;       // Standardabweichung Y
-    double correlation; // Pearson-Korrelationskoeffizient
+    double mean_x;
+    double mean_y;
+    double std_x;
+    double std_y;
+    double correlation;
 };
 
-// Prototyp der Rechenfunktion
 DatasetStats calculateStats(const std::vector<Point>& points);
 
 #endif
