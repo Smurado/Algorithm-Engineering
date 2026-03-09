@@ -4,5 +4,5 @@ Static Schedules: OpenMP vs. C++ Threads
 
 ## Report
 
-This topic really shows why OpenMP is a perfect tool to get in touch with parallelisation in C++.
-The threads code looks alot scarier than the OpenMP Code. And it also shows the key selling point of openMP which is to write your code first and after this parallize it. Without the need of heavy focus on the code being this specific way. Which is the way I did it in my project. At first I wrote the program to run on one thread and I implemented the possiblity for it to run on multiple threads later on. Of course there were some problems with it at first but as a developer I only had to adjust some smaller details for it to run with the speed up of parallelization.
+This topic really shows why OpenMP is a perfect tool to get in touch with parallelization in C++.
+The threads code looks a lot scarier than the OpenMP code. It also highlights the key selling point of OpenMP, which is the ability to write your code first and parallelize it afterward, without needing a heavy focus on structuring the code in a specific way from the start. This is exactly how I handled my project: At first, I wrote the program to run on one thread, and I implemented the possibility for it to run on multiple threads later on. Of course, there were some problems initially, but as a developer, I only had to adjust minor details to achieve the speedup of parallelization.

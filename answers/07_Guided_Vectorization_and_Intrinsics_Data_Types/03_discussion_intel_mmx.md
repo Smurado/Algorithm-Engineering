@@ -6,19 +6,19 @@ Discuss two things you find particularly interesting.
 
 ## Topic 1
 
-### The reason for the introduction of MMX.
+### The reason for the introduction of MMX
 
-I find it particularly interesting, that the reason for the MMX-Introduction was the underutilization of the 64 bit data width the processor could handle. Which in terms of performance meant, that the processor could handle more and speed up tasks like multimedia, communications, and other numeric-intensive applications.
+I find it particularly interesting that the reason for the introduction of MMX was the underutilization of the 64-bit data width the processor could handle. In terms of performance, this meant that the processor could theoretically handle more data at once and speed up tasks like multimedia, communications, and other numeric-intensive applications.
 
-Whats very funny about this is, that at the time those things were not as smooth and self-evident as we grant them today. Since then approximalty 30 years have passed and nowadays we dont even think about the fact, that multimedia was a challenge for PCs in the past.
+What is very funny about this is that, at the time, those things were not as smooth and self-evident as we take them for granted today. Since then, approximately 30 years have passed, and nowadays we don't even think about the fact that basic multimedia playback was a challenge for PCs in the past.
 
 ## Topic 2
 
 ### MMX Read/Write Stage
 
-Another thing i found very interesting is the fact, that the engeneers also changed the pipeline.
-Because they made the special stages for reading and writing in the pipeline seperating on from another when handling MMX operands.
+Another thing I found very interesting is the fact that the engineers also changed the pipeline.
+They decoupled the specific stages for reading and writing in the pipeline, making them independent from one another when handling MMX operands.
 
-This allows to perform a calculation with one perand in memory and the other in a register to complete in just one clock cycle. 
-In contrast to this old Pipelines required two consecutive cycles.
-This effectifly halves the number of needed clock cycles.
+This allows an instruction performing a calculation with one operand in memory and the other in a register to complete in just one clock cycle. 
+In contrast, older pipelines required two consecutive cycles for such operations.
+This effectively halves the number of needed clock cycles.

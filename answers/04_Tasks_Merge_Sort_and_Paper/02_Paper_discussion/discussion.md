@@ -1,13 +1,14 @@
 # Topic
-### Read What every systems programmer should know about concurrency.
+### Read "What every systems programmer should know about concurrency."
 
-The First thing I found particularly interesting is the fact, that on modern Systems it is not that trivial to
-guarantee, that the commands are executed in the designed order. I always assumed that it is hard to parallelize an
-application. But not that it is also by design of the Hardware not guaranteed that things in the same function get
-executed in the specified order. It is really mindblowing that so much is working together under the hood without 
-the programmers knowing just to speed up the system or a given task.
+The first thing I found particularly interesting is the fact that on modern systems, it is not trivial to
+guarantee that commands are executed in their intended order. I always assumed that it is hard to parallelize an
+application, but not that hardware design itself doesn't guarantee that instructions within the same function are
+executed in the specified order. It is really mind-blowing that so much happens under the hood without 
+the programmer knowing, just to speed up the system or a given task.
 
-One other thing that I found very nice too read is the section called: 'hc svnt dracones'.
-This one explaines the principle of Heisenbugs and should be a reminder that you don't always need to overengineer
-certain aspects of a program. Sometimes the default implementation is enough to have fewer bugs and be able to test less
-intensive. It also gives some examples in questions which one should really take into consideration.
+Another thing I found very interesting to read is the section called "hc svnt dracones".
+This section explains the principle of Heisenbugs and serves as a reminder that you don't always need to overengineer
+certain aspects of a program. Sometimes, a simpler default implementation is enough to produce fewer bugs and requires
+less intensive testing. It also provides some example questions that one should seriously take into consideration 
+when designing a concurrent system.

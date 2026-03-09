@@ -17,12 +17,12 @@ the changes you do and their impact on performance.
 
 ## Performance
 
-Both versions were executed with 8 threads and Pi is calculated with 100.000.000 points.
-The program is executed with the following flags:
+Both versions were executed with 8 threads and Pi was calculated with 100.000.000 points.
+The program was executed with the following flags:
 
 > -fopenmp -Ofast
 
-Every version will be executed 5 times, the average is calculated.
+Each version was executed 5 times, and the average execution time was calculated.
 
 ### Performance before modifying
 
@@ -34,7 +34,7 @@ Every version will be executed 5 times, the average is calculated.
 | 4   	| 0.240788  |
 | 5   	| 0.237752  |
 
-On average the program needs **0.2388786** seconds to execute.
+On average, the program takes **0.2388786** seconds to execute.
 
 ### Performance after modifying
 
@@ -46,10 +46,10 @@ On average the program needs **0.2388786** seconds to execute.
 | 4   	| 0.035342 	|
 | 5   	| 0.035118  |
 
-On average the program needs **0.0347472** seconds to execute.
+On average, the program takes **0.0347472** seconds to execute.
 
 ### Conclusion
 
 The formula _(old - new) / old * 100_ is used to calculate the percentage improvement in execution time.
 
-After modifying the algorithm, there was a **85.45%** gain in performance.
+After modifying the algorithm, there was an **85.45%** improvement in performance.

@@ -56,7 +56,7 @@ All tests for this speedup have been done using 16 Threads.
 ![Relative Speedup vs Array Size Graph min_max und gnu parallel](size_benchmark_graph.png)
 
 ## 4. Analysis and Discussion
-#### 4.1Patterns in Graph: Parallel Speedup Analysis**:
+#### 4.1 Patterns in Graph: Parallel Speedup Analysis
 
   1. **Ideal Scaling:** As seen in the graph, the ideal linear speedup is not reached. 
   <br/>
@@ -67,9 +67,9 @@ All tests for this speedup have been done using 16 Threads.
 #### Reasons: 
 - **Overhead:** Parallel execution always incurs overhead (e.g., communication, thread creation, memory access). Therefore, perfect linear scaling is rarely achievable in practice.
   
--  **Algorithmic Differences:** min_max_quicksort contains non-parallel sections (e.g., partitioning is partly serial before tasks are spawned). In contrast, __gnu_parallel::sort is a highly optimized library specifically tuned for sorting, employing advanced strategies (likely Sample Sort or Multiway Mergesort) that leverage cache efficiency better.
+-  **Algorithmic Differences:** `min_max_quicksort` contains non-parallel sections (e.g., partitioning is partly serial before tasks are spawned). In contrast, `__gnu_parallel::sort` is a highly optimized library specifically tuned for sorting, employing advanced strategies (likely Sample Sort or Multiway Mergesort) that leverage cache efficiency better.
   <br/>
-- **Hardware Architecture:** The Apple M4 Pro chip used in this test features a hybrid architecture with 10 Performance cores and 4 Efficiency cores. The operating system prioritizes Performance cores. Once the thread count exceeds the number of Performance cores (around 10-12), the scheduler must utilize the slower Efficiency cores, which reduces the average speedup per thread.
+- **Hardware Architecture:** The Apple M4 chip used in this test features a hybrid architecture with 12 performance cores and 4 efficiency cores. The operating system prioritizes performance cores. Once the thread count exceeds the number of performance cores (around 12), the scheduler must utilize the slower efficiency cores, which reduces the average speedup per thread.
 
 #### 4.2 Observations on Array Size (Graph 2)
 1. **Small Arrays:** Both `__gnu_parallel::sort` and `min_max_quicksort` perform worse than the baseline `(std::sort)` for array sizes below $10^4$.

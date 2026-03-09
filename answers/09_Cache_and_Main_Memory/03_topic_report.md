@@ -9,16 +9,17 @@ Slide 4 "Processor-Memory Gap"
 
 ## Research
 
-A thing i found particularly interesting about processor-memory gap is, that I thought it is a bandwith problem. But in modern System this is not the Case. The main problem of this gap is the latency. While CPUs can have performe billions of operations (4 GHz of a typical CPU = 0,25 nanoseconds per tick). DRAM Latency is somewhere around 100 nanoseconds which means the CPU can do 400 operations while waiting for new data from the memory.
+A thing I found particularly interesting about the processor-memory gap is that I always thought it is mainly a bandwidth problem. But in modern systems, this is not the case. The main problem of this gap is latency. While CPUs can perform billions of operations per second (e.g., 4 GHz of a typical CPU = 0.25 nanoseconds per clock tick), DRAM latency is somewhere around 100 nanoseconds. This means the CPU could theoretically compute 400 operations while waiting for new data from the main memory.
 
 # Optimizations to narrow this gap
 
-1. Increase of the size of Cache
-   As discussed in the lesson the cache sized is increased. For Gamers especially AMD released special CPUs with more L3 Cache as games scale very good with larger caches.
+1. **Increase the cache size**
+   As discussed in the lecture, cache sizes are continuously increasing. For gamers especially, AMD released special "X3D" CPUs with significantly more L3 Cache, as games scale very well with larger low-latency caches.
 
-2. Optimization of the way data is stored in the memory
-   Also mentioned in previuos lessons, the data is stored in better ways to access the data better.
-   One example for this is Aos vs Soa.
+2. **Optimization of the memory layout**
+   As mentioned in previous lessons, data can be stored in more efficient ways to improve memory access and exploit spatial locality. 
+   One example for this is comparing Array of Structures (AoS) vs Structure of Arrays (SoA).
 
-3. Some manufactures also changes the design of their computers entirly.
-   One famous example is the processor `Fujitsu A64FX`. This processor used HBM memory directly attached to the CPU. HBM is interesting because it is stacked memory therefore reduces the distance data has to travel. But it is not designed for high Compute-Bound but rather Bandwith bound. Typcal DDR5 has around 50GB/s of bandwith the HBM is attached in a way to reach 1024 GB/s.
+3. **Complete architecture redesigns**
+   Some manufacturers completely changed the design of their computers.
+   One famous example is the supercomputer processor `Fujitsu A64FX`. This processor uses HBM (High Bandwidth Memory) directly attached to the CPU. HBM is interesting because it is vertically stacked memory, therefore reducing the physical distance data has to travel. It is specifically designed not just to lower latency, but mostly to combat bandwidth-bound scenarios. Typical DDR5 has around 50 GB/s of bandwidth, whereas the HBM layout used on the A64FX reaches an impressive 1024 GB/s.
