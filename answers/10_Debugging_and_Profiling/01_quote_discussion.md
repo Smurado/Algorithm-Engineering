@@ -5,11 +5,9 @@ optimization. What is your opinion?
 
 # Opinion
 
-Donald Knuth is absolutely right with his observation. With the introduction of Scrum in modern software development, all of the mentioned things have even gotten worse. 
+Donald Knuth is absolutely right with his observation. In practice, agile methodologies like Scrum are often implemented in a way that leaves little room for refactoring, as the focus is on delivering features sprint by sprint. Developers are expected to produce correct, optimized software right from the start, while also picking the correct architecture model for the task. 
 
-Scrum dictates that software developers need to write 100% correct code all the time because there is no time or a special sprint for refactoring or cleaning up the code. Developers are expected to produce perfect, optimized software right from the start, while also picking the correct architecture model for the task. 
-
-If one picks an architecture for the code right from the start of the project, the project might be doomed. People will use approximately 80% of their energy writing boilerplate code that doesn't do anything yet just to stick with the architecture, instead of building a minimal viable product and seeing if the project is even worth putting more time into.
+If one picks a heavy architecture for the code right from the start of the project, the project might be doomed. Studies estimate that a significant portion of enterprise codebases consists of boilerplate and infrastructure code that doesn't directly contribute to business logic, instead of building a minimal viable product first and seeing if the project is even worth putting more time into. The same principle applies to performance: instead of optimizing before knowing where the actual bottleneck is, one should first build a working version and then use a profiler to identify the critical 3%.
 
 This could also explain why the percentage of projects that fail because of software is rising.
 
