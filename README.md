@@ -1,26 +1,46 @@
 # Algorithm-Engineering
 
+This is the Repository for the Course Algorithm-Engineering. 
+
+**Student:** Justin Bergmann  
+**E-Mail:** [justin.bergmann@uni-jena.de](mailto:justin.bergmann@uni-jena.de)
+
+## About this repository
+
+This repository is split into three directories:
+
+- **answers**
+  - contains answers to the Exam Assignments and solutions to the coding exercises
+  - the answers are labeled the same way as the slides, e.g.: "01_Course_Intro..."
+  - the solutions for the tasks of an assignment are labeled in the order they were given in the slides, e.g.: solution for the first task => "01_task..."
+- **paper**
+  - contains the paper for the project
+- **project**
+  - contains the project: Generating 2D Datasets With Similar Statistical Properties
+
+---
+
 ## Datasaurus – Transformations
 
 Simulated annealing transforms point clouds into target shapes while preserving the original summary statistics (mean, standard deviation, correlation).
 
 <p align="center">
-  <img src="Datasaurus_Cpp/gifs/circle.gif" width="640" alt="Dino → Circle" />
-  <img src="Datasaurus_Cpp/gifs/line.gif" width="640" alt="Dino → Line" />
+  <img src="project/gifs/circle.gif" width="640" alt="Dino → Circle" />
+  <img src="project/gifs/line.gif" width="640" alt="Dino → Line" />
 </p>
 <p align="center">
-  <img src="Datasaurus_Cpp/gifs/star.gif" width="640" alt="Dino → Star" />
-  <img src="Datasaurus_Cpp/gifs/sierpinski_dense.gif" width="640" alt="Dino → Sierpinski" />
+  <img src="project/gifs/star.gif" width="640" alt="Dino → Star" />
+  <img src="project/gifs/sierpinski_dense.gif" width="640" alt="Dino → Sierpinski" />
 </p>
 
 <details>
 <summary>All transformations combined</summary>
 <p align="center">
-  <img src="Datasaurus_Cpp/gifs/all_transformations.gif" alt="All Transformations" />
+  <img src="project/gifs/all_transformations.gif" alt="All Transformations" />
 </p>
 </details>
 
-> **Generate these GIFs yourself:** Open `Datasaurus_Cpp/Notebook/ExportGifs.ipynb` and run all cells. Output goes to `Datasaurus_Cpp/gifs/`.
+> **Generate these GIFs yourself:** Open `project/Notebook/ExportGifs.ipynb` and run all cells. Output goes to `project/gifs/`.
 
 ---
 
@@ -29,7 +49,7 @@ Simulated annealing transforms point clouds into target shapes while preserving 
 The optimizer accepts optional CLI parameters to tune the simulated annealing process. All have sensible defaults.
 
 ```
-./Datasaurus_Cpp [OPTIONS] <input.csv> <target.csv>
+./project [OPTIONS] <input.csv> <target.csv>
 ```
 
 | Flag | Default | Description |
@@ -52,25 +72,25 @@ This means you never need to manually calibrate the cooling rate when changing i
 
 ```bash
 # Default run (1 billion iterations, temp=0.4, epsilon=0.003, all cores)
-./Datasaurus_Cpp data/dino.csv data/circle.csv
+./project data/dino.csv data/circle.csv
 
 # Quick test run with fewer iterations
-./Datasaurus_Cpp -n 10000000 data/dino.csv data/circle.csv
+./project -n 10000000 data/dino.csv data/circle.csv
 
 # Use only 4 threads, save result to a specific path
-./Datasaurus_Cpp -j 4 -o results/my_circle.csv data/dino.csv data/circle.csv
+./project -j 4 -o results/my_circle.csv data/dino.csv data/circle.csv
 
 # High-precision run: tighter statistical constraint
-./Datasaurus_Cpp --epsilon 0.001 data/dino.csv data/circle.csv
+./project --epsilon 0.001 data/dino.csv data/circle.csv
 
 # Higher start temperature for more exploration, with timeline export
-./Datasaurus_Cpp --temp 0.8 -n 2000000000 -t data/dino.csv data/line.csv
+./project --temp 0.8 -n 2000000000 -t data/dino.csv data/line.csv
 
 # Benchmark: test 1 to 8 threads, 5 runs each
-./Datasaurus_Cpp -b 8 data/dino.csv data/circle.csv
+./project -b 8 data/dino.csv data/circle.csv
 
 # Benchmark with fewer iterations for a quick scaling test
-./Datasaurus_Cpp -b 4 -n 100000000 data/dino.csv data/circle.csv
+./project -b 4 -n 100000000 data/dino.csv data/circle.csv
 ```
 
 Benchmark output:
@@ -95,7 +115,7 @@ Time stays roughly constant (each thread runs all iterations independently), whi
 > **Note:** Clang is not officially supported. The project uses `<print>` (C++23) and OpenMP, which require additional setup under Clang.
 
 ```bash
-cd Datasaurus_Cpp
+cd project
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
@@ -120,7 +140,7 @@ echo "50,10
 50,50" > data/diamond.csv
 
 # Run the transformation
-./build/Datasaurus_Cpp data/dino.csv data/diamond.csv
+./build/project data/dino.csv data/diamond.csv
 ```
 
 More points in the target CSV produce denser, more detailed shapes. Use `-t` to export timeline frames for animation.
