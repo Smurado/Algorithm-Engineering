@@ -1,3 +1,9 @@
+// Datasaurus C++ — Simulated Annealing for statistical shape morphing
+//
+// Transforms a 2D point cloud into a target shape while preserving
+// five summary statistics (mean_x, mean_y, std_x, std_y, correlation).
+// Uses O(1) incremental updates and OpenMP multi-chain parallelization.
+
 #include <iostream>
 #include <fstream>
 #include <print>
@@ -17,6 +23,7 @@
 
 namespace fs = std::filesystem;
 
+// Reads a CSV file with "x,y" rows into a point vector. Skips malformed lines.
 std::vector<Point> loadCSV(const std::string& filename) {
     std::vector<Point> cloud;
     std::ifstream file(filename);
@@ -63,6 +70,7 @@ void perturbPoint(std::vector<Point>& points, size_t idx, std::mt19937& gen, dou
     points[idx].y += moveDist(gen);
 }
 
+// Writes points to CSV with 6 decimal places (needed for sub-epsilon precision).
 void saveCSV(const std::vector<Point>& points, const std::string& filename) {
     std::ofstream file(filename);
     if (!file.is_open()) {
@@ -78,6 +86,10 @@ void saveCSV(const std::vector<Point>& points, const std::string& filename) {
     std::println("Result saved to '{}'", filename);
 }
 
+// --- Core Simulated Annealing loop for a single chain ---
+// Each chain maintains its own running sums (sX, sY, sX2, sY2, sXY) for O(1)
+// statistical updates instead of recomputing over all N points every iteration.
+// Returns the final energy (sum of distances to target shape).
 double runOptimization(std::vector<Point>& points,
                      const TargetShape& target,
                      const DatasetStats& baseline,
@@ -104,7 +116,7 @@ double runOptimization(std::vector<Point>& points,
         currentEnergy += target.distanceTo(p);
     }
 
-    for (int i = 0; i < config.totalIterations; ++i) {
+    for (long long i = 0; i < config.totalIterations; ++i) {
         size_t idx = indexDist(gen);
         Point oldP = points[idx];
         double oldDist = target.distanceTo(oldP);
@@ -119,6 +131,7 @@ double runOptimization(std::vector<Point>& points,
         double nextSY2 = sY2 - (oldP.y * oldP.y) + (newP.y * newP.y);
         double nextSXY = sXY - (oldP.x * oldP.y) + (newP.x * newP.y);
 
+        // Derive new statistics from updated sums (Bessel-corrected variance)
         DatasetStats nextStats;
         nextStats.mean_x = nextSX / n;
         nextStats.mean_y = nextSY / n;
@@ -130,7 +143,7 @@ double runOptimization(std::vector<Point>& points,
         nextStats.correlation = (nextStats.std_x > 0 && nextStats.std_y > 0)
                                 ? cov / (nextStats.std_x * nextStats.std_y) : 0;
 
-        // Reject if statistics constraint is violated
+        // Two-gate acceptance: first check statistical constraint, then Metropolis energy criterion
         if (checkStats(baseline, nextStats, config.epsilon)) {
             double newDist = target.distanceTo(newP);
             double deltaE = newDist - oldDist;
@@ -146,7 +159,7 @@ double runOptimization(std::vector<Point>& points,
             points[idx] = oldP; // Reject: statistics violated
         }
 
-        // Progressive snapshots for animation (chain 0 only)
+        // Logarithmic snapshot schedule: denser early on, sparser later (for smooth GIF animation)
         if (chainID == 0 && saveTimeline) {
             bool takeSnapshot = false;
 
@@ -217,7 +230,7 @@ int main(int argc, char* argv[]) {
             saveTimeline = true;
         }
         else if ((arg == "-n" || arg == "--iterations") && i + 1 < argc) {
-            config.totalIterations = std::stoi(argv[++i]);
+            config.totalIterations = std::stoll(argv[++i]);
         }
         else if (arg == "--temp" && i + 1 < argc) {
             config.startTemp = std::stod(argv[++i]);
@@ -260,9 +273,7 @@ int main(int argc, char* argv[]) {
     std::string frameDir = "../frames/" + targetName;
     fs::create_directories(frameDir);
 
-    // ==========================================
-    // Benchmark mode
-    // ==========================================
+    // --- Benchmark mode: sweep thread counts 1..J, 5 runs each ---
     if (benchmarkMaxThreads > 0) {
         constexpr int RUNS = 5;
         std::println("Benchmark: {} run(s) per thread count, 1 to {} threads, {} iterations each",
@@ -312,7 +323,7 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    // Parallel optimization setup
+    // --- Normal mode: run K independent chains in parallel, keep the best result ---
     int numChains = (numThreads > 0) ? numThreads : omp_get_max_threads();
     omp_set_num_threads(numChains);
     std::vector<std::vector<Point>> results(numChains, dinoCloud);

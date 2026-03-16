@@ -1,6 +1,10 @@
 #include "statistics.h"
 #include <cmath>
 
+// Full O(N) statistics computation using a numerically stable two-pass approach.
+// Pass 1 computes means, Pass 2 computes variance/covariance relative to the means.
+// This avoids catastrophic cancellation that occurs with single-pass sum-of-squares.
+// Only called once at startup; the SA loop uses O(1) incremental updates instead.
 DatasetStats calculateStats(const std::vector<Point>& points) {
     if (points.empty()) return {};
 

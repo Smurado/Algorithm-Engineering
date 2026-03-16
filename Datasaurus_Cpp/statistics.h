@@ -1,6 +1,10 @@
 #ifndef STATISTICS_H
 #define STATISTICS_H
 
+// Point cloud representation and summary statistics.
+// The five metrics (mean_x, mean_y, std_x, std_y, correlation) define the
+// statistical "fingerprint" that must be preserved during shape morphing.
+
 #include <vector>
 
 struct Point {

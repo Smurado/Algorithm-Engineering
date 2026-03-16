@@ -1,3 +1,9 @@
+// Target shape abstraction — provides O(1) distance queries via a precomputed grid.
+//
+// FileShape loads any CSV with x,y pairs and builds a 101x101 distance lookup table
+// at construction time. This trades ~80 KB of memory for eliminating the O(m) per-query
+// cost of iterating over all target points during the billion-iteration SA loop.
+
 #pragma once
 
 #include "statistics.h"
@@ -18,7 +24,8 @@ public:
 
 class FileShape : public TargetShape {
     std::vector<Point> targetPoints;
-    // Precomputed distance lookup table (LUT): trades ~80 KB RAM for O(1) distance queries
+    // Precomputed distance lookup table (LUT): 101x101 grid covering [0,100]^2.
+    // Each cell stores the minimum Euclidean distance to any target point.
     double grid[101][101];
 
 public:
@@ -51,8 +58,9 @@ public:
     }
 
     double distanceTo(const Point& p) const override {
-        // O(1) grid lookup; out-of-bounds points get an additional penalty
-        // proportional to their distance from the grid, creating a gradient back inward
+        // O(1) grid lookup with boundary clamping.
+        // Out-of-bounds points get an additional penalty that grows with distance
+        // from the [0,100] domain, creating a smooth gradient back inward.
         int ix = std::clamp(static_cast<int>(std::round(p.x)), 0, 100);
         int iy = std::clamp(static_cast<int>(std::round(p.y)), 0, 100);
 
