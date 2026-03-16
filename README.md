@@ -90,7 +90,9 @@ Time stays roughly constant (each thread runs all iterations independently), whi
 
 ## Building
 
-**Prerequisites:** CMake 3.28+, a C++23 compiler (Clang 17+ / GCC 13+), OpenMP
+**Prerequisites:** CMake 3.28+, GCC 14+ with OpenMP support (tested with GCC 15.2.0)
+
+> **Note:** Clang is not officially supported. The project uses `<print>` (C++23) and OpenMP, which require additional setup under Clang.
 
 ```bash
 cd Datasaurus_Cpp
