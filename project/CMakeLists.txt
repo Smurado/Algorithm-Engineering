@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.28) # [cite: 1]
+cmake_minimum_required(VERSION 3.28)
 project(Datasaurus_Cpp CXX)
 
 set(CMAKE_CXX_STANDARD 23)
@@ -23,7 +23,7 @@ target_link_libraries(Datasaurus_Cpp PUBLIC OpenMP::OpenMP_CXX)
 # ==========================================
 enable_testing()
 
-# Catch2 automatisch von GitHub laden
+# Fetch Catch2 from GitHub
 include(FetchContent)
 FetchContent_Declare(
         Catch2

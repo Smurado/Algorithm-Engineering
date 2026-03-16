@@ -9,7 +9,7 @@ TEST_CASE("Mean is calculated correctly", "[statistics]") {
 
     DatasetStats stats = calculateStats(data);
 
-    // WithinAbs ersetzt den manuellen isClose-Check
+    // WithinAbs replaces a manual isClose check
     REQUIRE_THAT(stats.mean_x, Catch::Matchers::WithinAbs(5.0, 0.001));
     REQUIRE_THAT(stats.mean_y, Catch::Matchers::WithinAbs(5.0, 0.001));
 }
